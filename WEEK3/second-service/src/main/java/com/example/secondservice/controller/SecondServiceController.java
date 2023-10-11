@@ -25,4 +25,5 @@ public class SecondServiceController {
     public String check() {
         return "Hi, there. This is a message from Second Service.";
     }
+
 }
