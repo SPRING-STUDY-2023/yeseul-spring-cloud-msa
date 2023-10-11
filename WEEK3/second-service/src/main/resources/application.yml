@@ -1,0 +1,12 @@
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: my-first-service
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetchRegistry: false
