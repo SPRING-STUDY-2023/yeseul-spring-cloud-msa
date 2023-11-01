@@ -45,7 +45,7 @@ public class UserController {
         return greeting.getMessage();
     }
 
-    @PostMapping("/users")
+    @PostMapping("/signup")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper(); //ModelMapper는 Java 객체 간에 데이터를 복사하거나 매핑하는 데 사용되는 라이브러리
 

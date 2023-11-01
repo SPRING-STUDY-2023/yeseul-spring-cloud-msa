@@ -30,17 +30,20 @@ public class WebSecurity {
     private final ObjectPostProcessor<Object> objectObjectPostProcessor;
     private final Environment env;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/signup",
+            "/h2-console/**"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         return http
                 .csrf(CsrfConfigurer::disable)
-                .authorizeRequests(authorizeRequest ->
-                        authorizeRequest
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // "/h2-console/**"에 대한 접근을 허용
-                                .requestMatchers(new AntPathRequestMatcher("/users")).permitAll() // "/users"에 대한 접근을 허용
-                                .requestMatchers(new IpAddressMatcher("127.0.0.1")).permitAll()
-                )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())
+                )
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
                 )
                 .addFilter(getAuthenticationFilter())
                 .build();

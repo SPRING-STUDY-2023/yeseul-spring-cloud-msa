@@ -29,7 +29,7 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/users #회원가입
+            - Path=/user-service/signup #회원가입
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
