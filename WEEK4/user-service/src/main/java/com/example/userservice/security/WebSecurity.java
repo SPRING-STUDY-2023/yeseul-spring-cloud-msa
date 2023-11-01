@@ -30,11 +30,6 @@ public class WebSecurity {
     private final ObjectPostProcessor<Object> objectObjectPostProcessor;
     private final Environment env;
 
-    private static final String[] AUTH_WHITELIST = {
-            "/signup",
-            "/h2-console/**"
-    };
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
