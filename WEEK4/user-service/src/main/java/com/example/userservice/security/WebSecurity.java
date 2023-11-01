@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
 
@@ -28,12 +29,13 @@ public class WebSecurity {
     private final ObjectPostProcessor<Object> objectObjectPostProcessor;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequest ->
+                .authorizeRequests(authorizeRequest ->
                         authorizeRequest
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // "/h2-console/**"에 대한 접근을 허용
+                                .requestMatchers(new AntPathRequestMatcher("/users")).permitAll() // "/users"에 대한 접근을 허용
                                 .requestMatchers(new IpAddressMatcher("127.0.0.1")).permitAll()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())
