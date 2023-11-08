@@ -52,4 +52,4 @@ spring:
           predicates:
             - Path=/order-service/**
 token:
-  secret: user_token
+  secret: testSecretKey20230327testSecretKey20230327testSecretKey
