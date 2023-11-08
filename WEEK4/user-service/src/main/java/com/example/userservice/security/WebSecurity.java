@@ -33,7 +33,9 @@ public class WebSecurity {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
+                        //.requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                 )
                 .addFilter(getAuthenticationFilter())
                 .build();
