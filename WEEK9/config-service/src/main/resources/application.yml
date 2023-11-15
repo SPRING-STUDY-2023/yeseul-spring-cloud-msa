@@ -3,13 +3,23 @@ server:
 
 spring:
   application:
-    name: config-service
-  profiles:
-    active: native
+    name: config-server
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672 #웹브라우저로 접속할 때는 15672, 시스템으로 접속할때는 5672
+    username: guest
+    password: guest
+#  profiles:
+#    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: file://${user.home}/Users/joyeseul/Spring/native-file-repo
-#        git:
-#          uri: https://github.com/SPRING-STUDY-2023/yeseul-spring-cloud-msa-config
+#        native:
+#          search-locations: file://${user.home}/Users/joyeseul/Spring/native-file-repo
+        git:
+          uri: https://github.com/SPRING-STUDY-2023/yeseul-spring-cloud-msa-config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

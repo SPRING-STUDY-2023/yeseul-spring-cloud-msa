@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: user-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672 #웹브라우저로 접속할 때는 15672, 시스템으로 접속할때는 5672
+    username: guest
+    password: guest
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
@@ -43,4 +48,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, busrefresh
