@@ -1,5 +1,7 @@
 package com.example.apigatewayservice.filter;
 
+import static java.rmi.server.LogStream.log;
+
 import io.jsonwebtoken.Jwts;
 import java.io.Console;
 import lombok.extern.slf4j.Slf4j;

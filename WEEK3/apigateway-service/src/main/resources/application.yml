@@ -21,6 +21,14 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
+            - Path=/user-service/actuator/**
+            - Method=POST,GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
             - Path=/user-service/login
             - Method=POST
           filters:
@@ -51,5 +59,11 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
-token:
-  secret: testSecretKey20230327testSecretKey20230327testSecretKey
+#token:
+#  secret: testSecretKey20230327testSecretKey20230327testSecretKey
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpexchanges

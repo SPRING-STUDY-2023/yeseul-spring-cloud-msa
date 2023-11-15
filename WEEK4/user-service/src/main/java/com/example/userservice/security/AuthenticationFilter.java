@@ -1,5 +1,6 @@
 package com.example.userservice.security;
 
+import static java.rmi.server.LogStream.log;
 import static java.util.Objects.requireNonNull;
 
 import com.example.userservice.dto.UserDto;
