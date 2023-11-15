@@ -9,10 +9,11 @@ spring:
     port: 5672 #웹브라우저로 접속할 때는 15672, 시스템으로 접속할때는 5672
     username: guest
     password: guest
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    driver-class-name: org.h2.Driver
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+
   h2:
     console:
       enabled: true
