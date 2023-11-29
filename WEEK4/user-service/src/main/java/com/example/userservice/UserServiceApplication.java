@@ -1,5 +1,7 @@
 package com.example.userservice;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -27,5 +29,10 @@ public class UserServiceApplication {
 	@LoadBalanced
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
+	}
+
+	@Bean
+	public Logger.Level feignLoggerLevel() {
+		return Level.ALL;
 	}
 }

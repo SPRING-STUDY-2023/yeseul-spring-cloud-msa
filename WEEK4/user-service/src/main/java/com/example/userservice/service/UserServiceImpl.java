@@ -5,8 +5,10 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.jpa.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
+import feign.FeignException.FeignClientException;
 import jakarta.persistence.criteria.Order;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import java.util.UUID;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
     UserRepository userRepository;
     BCryptPasswordEncoder passwordEncoder;
@@ -81,7 +84,13 @@ public class UserServiceImpl implements UserService{
 //        List<ResponseOrder> ordersList = orderListResponse.getBody();
 
         /** Using as Feign Client */
-        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+        /** Feign Exception handling */
+        List<ResponseOrder> ordersList = null;
+        try {
+            ordersList = orderServiceClient.getOrders(userId);
+        } catch (FeignClientException ex) {
+            log.error(ex.getMessage());
+        }
 
         userDto.setOrders(ordersList);
         return userDto;
