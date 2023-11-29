@@ -85,14 +85,16 @@ public class UserServiceImpl implements UserService{
 
         /** Using as Feign Client */
         /** Feign Exception handling */
-        List<ResponseOrder> ordersList = null;
-        try {
-            ordersList = orderServiceClient.getOrders(userId);
-        } catch (FeignClientException ex) {
-            log.error(ex.getMessage());
-        }
-
+//        List<ResponseOrder> ordersList = null;
+//        try {
+//            ordersList = orderServiceClient.getOrders(userId);
+//        } catch (FeignClientException ex) {
+//            log.error(ex.getMessage());
+//        }
+        /** ErrorDecoder */
+        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
         userDto.setOrders(ordersList);
+
         return userDto;
     }
 
