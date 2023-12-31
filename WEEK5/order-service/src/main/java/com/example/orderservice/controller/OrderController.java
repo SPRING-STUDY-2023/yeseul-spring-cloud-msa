@@ -1,10 +1,11 @@
 package com.example.orderservice.controller;
-
+import com.example.messageQueue.KafkaProducer;
 import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.jpa.OrderEntity;
 import com.example.orderservice.service.OrderService;
 import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order-service")
+@RequiredArgsConstructor
 public class OrderController {
-    OrderService orderService;
-    Environment env;
-
-    @Autowired
-    public OrderController(OrderService orderService, Environment env) {
-        this.orderService = orderService;
-        this.env = env;
-    }
+    private final OrderService orderService;
+    private final Environment env;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping("/health_check")
     public String status() {
@@ -45,6 +42,10 @@ public class OrderController {
         orderService.createOrder(orderDto);
 
         ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
+
+        // kafka에 메세지를 전달하는 로직 추가
+        kafkaProducer.send("example-catalog-topic", orderDto); // topic 이름은 catalog service에 정해 놓은 이름과 일치
+
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
 
