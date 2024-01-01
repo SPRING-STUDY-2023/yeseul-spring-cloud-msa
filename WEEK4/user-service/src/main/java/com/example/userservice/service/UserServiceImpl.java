@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -97,7 +98,14 @@ public class UserServiceImpl implements UserService{
 //            log.error(ex.getMessage());
 //        }
         /** ErrorDecoder */
-        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+       // List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+
+        log.info("Before call orders microservice");
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<ResponseOrder> ordersList = circuitbreaker.run(() -> orderServiceClient.getOrders(userId),
+            throwable -> new ArrayList<>());
+        log.info("After call orders microservice");
+
         userDto.setOrders(ordersList);
 
         return userDto;
